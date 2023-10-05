@@ -1,5 +1,8 @@
 # Chat SDK Integration
 
+## Medium Article
+https://sailor-saturn.medium.com/incorporate-zendesk-chat-sdk-into-your-ios-app-b2ba43483b65
+
 ## Demo
 
 ![mockupZendesk](https://github.com/Sailor-Saturn/Integrating-ChatSDK-Zendesk/assets/46728174/ccb257fd-45f5-4b36-8c89-6c8ce3a95b5d)
