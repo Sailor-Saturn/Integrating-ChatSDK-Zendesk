@@ -9,32 +9,16 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    @IBOutlet private weak var tokenTextField: UITextField!
-
     private var modalBackButton: UIBarButtonItem {
-        UIBarButtonItem(barButtonSystemItem: .close,
+        let button = UIBarButtonItem(barButtonSystemItem: .close,
                         target: self,
                         action: #selector(dismissViewController))
+        button.tintColor = .black
+        return button
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGestureRecognizer)
-        // Do any additional setup after loading the view.
-    }
-
-    private func pushViewController(_ viewController: UIViewController) {
-        self.navigationController?.pushViewController(viewController, animated: true)
-    }
-
-    private func presentModally(_ viewController: UIViewController,
-                                presenationStyle: UIModalPresentationStyle = .automatic) {
-        viewController.navigationItem.leftBarButtonItem = modalBackButton
-
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.modalPresentationStyle = presenationStyle
-        present(navigationController, animated: true)
     }
 
     /// Dismiss modal `viewController` action
@@ -42,21 +26,17 @@ final class ViewController: UIViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func startMessaging(_ sender: Any) {
+    @IBAction func showChatSDK(_ sender: Any) {
         do {
             let viewController = try ZendeskMessaging.instance.buildMessagingViewController()
-            presentModally(viewController)
+            
+            viewController.navigationItem.leftBarButtonItem = modalBackButton
+            let navigationController = UINavigationController(rootViewController: viewController)
+            navigationController.modalPresentationStyle = .pageSheet
+            present(navigationController, animated: true)
         } catch {
             print(error)
         }
-    }
-
-    @IBAction func setToken(_ sender: Any) {
-        ZendeskMessaging.instance.authToken = tokenTextField.text ?? "" 
-    }
-
-    @objc func dismissKeyboard() {
-        tokenTextField.resignFirstResponder()
     }
 }
 

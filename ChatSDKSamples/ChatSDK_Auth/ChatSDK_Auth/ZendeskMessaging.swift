@@ -1,11 +1,3 @@
-//
-//  ZendeskMessaging.swift
-//  UnifiedSDK
-//
-//  Created by Zendesk on 17/04/2020.
-//  Copyright © 2020 Zendesk. All rights reserved.
-//
-
 import Foundation
 import MessagingSDK
 import MessagingAPI
@@ -13,41 +5,29 @@ import CommonUISDK
 import ChatSDK
 import ChatProvidersSDK
 
-final class ZendeskMessaging: NSObject, JWTAuthenticator {
+final class ZendeskMessaging {
 
     static let instance = ZendeskMessaging()
 
-    static var themeColor: UIColor? {
-        didSet {
-            guard let themeColor = themeColor else { return }
-            CommonTheme.currentTheme.primaryColor = themeColor
-        }
-    }
-
     #warning("Please provide Chat account key")
-    let accountKey = "<#String#>"
-
-    var authToken: String = "" {
-        didSet {
-            guard !authToken.isEmpty else {
-                resetVisitorIdentity()
-                return
-            }
-            Chat.instance?.setIdentity(authenticator: self)
-        }
-    }
+    let accountKey = ""
 
     // MARK: Configurations
     var messagingConfiguration: MessagingConfiguration {
         let messagingConfiguration = MessagingConfiguration()
-        messagingConfiguration.name = "Chat Bot"
+        messagingConfiguration.name = "Saturn Chat Bot"
         return messagingConfiguration
     }
 
     var chatConfiguration: ChatConfiguration {
+        let formConfiguration = ChatFormConfiguration(name: .required,
+                                                      email: .optional,
+                                                      phoneNumber: .hidden,
+                                                      department: .hidden)
         let chatConfiguration = ChatConfiguration()
-        chatConfiguration.isAgentAvailabilityEnabled = false
-        chatConfiguration.isPreChatFormEnabled = false
+        chatConfiguration.isAgentAvailabilityEnabled = true
+        chatConfiguration.isPreChatFormEnabled = true
+        chatConfiguration.preChatFormConfiguration = formConfiguration
         return chatConfiguration
     }
 
@@ -68,17 +48,13 @@ final class ZendeskMessaging: NSObject, JWTAuthenticator {
         Logger.defaultLevel = logLevel
     }
 
-    func resetVisitorIdentity() {
-        Chat.instance?.resetIdentity(nil)
-    }
-
-    func getToken(_ completion: @escaping (String?, Error?) -> Void) {
-        completion(authToken, nil)
-    }
-
     // MARK: View Controller
     func buildMessagingViewController() throws -> UIViewController {
+        CommonTheme.currentTheme.primaryColor = .cyan
         Chat.instance?.configuration = chatAPIConfig
+        UINavigationBar.appearance().barTintColor = .cyan
+
+        UINavigationBar.appearance().tintColor = .cyan
         return try Messaging.instance.buildUI(engines: engines,
                                               configs: [messagingConfiguration, chatConfiguration])
     }

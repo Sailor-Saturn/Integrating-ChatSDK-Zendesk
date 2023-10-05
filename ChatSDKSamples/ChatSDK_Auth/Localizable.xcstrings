@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "ios.conversation.ui.chat.message.unable_to_determine_availability" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a customisable string! 🦩"
+          }
+        }
+      }
+    },
+    "ios.conversation.ui.chat.offline_form.message__field_prompt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🦄✨✨✨✨✨"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
